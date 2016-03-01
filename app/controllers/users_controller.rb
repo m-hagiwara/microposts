@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
 
+  before_action :collect_user, only: [:edit, :update] 
+
   def show # 追加
    @user = User.find(params[:id])
   end
@@ -19,17 +21,29 @@ class UsersController < ApplicationController
   end
 
   def edit
-#    @user = User.find(params[:id])
+    @user = User.find(params[:id])
   end
  
   def update
-#    @user = User.find(params[:id])
+    @user = User.find(params[:id])
+    if @user.update(user_params)
+      flash[:success] = "Has been updated!"
+      redirect_to @user
+    else
+      render 'edit'
+    end
   end
  
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :area)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :area, :telno)
   end
 
+  def collect_user
+    user = User.find(params[:id])
+    if !current_user?(user)
+      redirect_to(root_url)
+  end
+ end
 end
