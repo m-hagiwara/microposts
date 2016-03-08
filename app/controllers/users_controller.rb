@@ -39,6 +39,7 @@ class UsersController < ApplicationController
   def followings
     @title = "Followings"
     @user  = User.find(params[:id])
+    @users = @user.followings
 #   @users = @user.following.paginate(page: params[:page])
     render 'show_follow'
   end
@@ -46,19 +47,9 @@ class UsersController < ApplicationController
   def followers
     @title = "Followers"
     @user  = User.find(params[:id])
+    @users = @user.followers
 #   @users = @user.followers.paginate(page: params[:page])
     render 'show_follow'
   end
 
-  private
-    def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation, :area, :teln)
-    end
-
-    def collect_user
-      user = User.find(params[:id])
-      if !current_user?(user)
-        redirect_to(root_url)
-      end
-    end
 end
