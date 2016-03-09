@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy,
-                                        :following, :followers]
+　before_action :collect_user, only: [:edit, :update]
 
   def show # 追加
    @user = User.find(params[:id])
