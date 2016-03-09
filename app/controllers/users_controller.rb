@@ -52,4 +52,17 @@ class UsersController < ApplicationController
     render 'show_follow'
   end
 
+  private
+
+  def user_params
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :area, :teln)
+  end
+
+  def collect_user
+    user = User.find(params[:id])
+    if !current_user?(user)
+      redirect_to(root_url)
+    end
+  end
+  
 end
