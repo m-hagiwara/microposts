@@ -13,6 +13,7 @@ class UsersController < ApplicationController
   
   def create
     @user = User.new(user_params)
+    @microposts = @user.microposts.order(created_at: :desc).paginate(page: params[:page], :per_page => 10)
     if @user.save
       flash[:success] = "Welcome to the Sample App!"
       redirect_to @user
